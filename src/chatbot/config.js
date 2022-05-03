@@ -1,8 +1,10 @@
-import { createChatBotMessage } from "react-chatbot-kit";
+
+
 const config = {
     botName:"Igea",
-    initialMessages: [createChatBotMessage(`Hello world`)]
+    initialMessages: []
     
   }
-  
+
+
   export default config
