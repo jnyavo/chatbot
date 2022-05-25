@@ -5,7 +5,7 @@ import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import './index.css';
 import App from './App';
-
+import {ContextProvider} from './contexts/ContextProvider';
 import reportWebVitals from './reportWebVitals';
 
 const options = {
@@ -21,7 +21,9 @@ ReactDOM.render(
   
     <AlertProvider template={AlertTemplate} {...options} >
       <React.StrictMode>
+        <ContextProvider>
           <App />
+        </ContextProvider>
       </React.StrictMode>
     </AlertProvider>
  ,
