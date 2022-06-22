@@ -1,10 +1,12 @@
-const server = require('socket.io');
-const config = require('./config');
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+const config = require('./config')
 
-const io = new server.Server(2300,{
-    origin:'*'
-    }
-)
+
 
 io.on("connection", socket => {
   var address = socket.handshake.address
@@ -13,6 +15,11 @@ io.on("connection", socket => {
     callback(config)
     })
 })
+
+
+server.listen(2300, () => {
+  console.log('listening on *:2300');
+});
 
 
 
