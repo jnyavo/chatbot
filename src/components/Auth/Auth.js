@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Input from "./input";
-//import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
-// import { authUser } from "./slices";
 import jwt_decode from "jwt-decode";
-//import { signin, signup } from "./slices";
+import * as api from "../../api/index";
+import { useStateContext } from "../../contexts/ContextProvider";
 import {
   Avatar,
   Button,
@@ -27,7 +26,27 @@ const initialState = {
 };
 
 const Auth = () => {
-//  const dispatch = useDispatch();
+  const { user, setUser, setLocalUser } = useStateContext();
+  const signin = async (formData) => {
+    try {
+      const data = await api.signIn(formData);
+
+      return data.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const signup = async (formData) => {
+    try {
+      formData.type = "Users";
+      const data = await api.signUp(formData);
+      return data.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const classes = useStyles();
   const [formData, setFormData] = useState(initialState);
   const [showPassoword, setShowPassoword] = useState(false);
@@ -40,25 +59,30 @@ const Auth = () => {
     e.preventDefault();
     if (isSignup) {
       try {
-        //  await dispatch(signup(formData));
-        //  await dispatch(createPlaning(formData.email));
-        if (location.state?.from) {
-          navigate(location.state?.from);
-        } else {
-          navigate("/");
+        const userConnected = await signup(formData);
+
+        if (userConnected) {
+          setLocalUser(userConnected);
+          if (location.state?.from) {
+            navigate(location.state.from);
+          } else {
+            navigate("/");
+          }
         }
       } catch (e) {
         console.log(e);
       }
     } else {
       try {
-        //  await dispatch(signin(formData));
-        //  await dispatch(createPlaning(formData.email));
-        if (location.state?.from) {
-          console.log(location.state?.from);
-          navigate(location.state?.from);
-        } else {
-          navigate("/");
+        const userConnected = await signin(formData);
+
+        if (userConnected) {
+          setLocalUser(userConnected);
+          if (location.state?.from) {
+            navigate(location.state.from);
+          } else {
+            navigate("/");
+          }
         }
       } catch (e) {
         console.log(e);
@@ -131,16 +155,16 @@ const Auth = () => {
           </Button>
           <GoogleLogin
             auto_select
-            /*onSuccess={ (credentialResponse) => {
+            onSuccess={(credentialResponse) => {
               const decoded = jwt_decode(credentialResponse.credential);
               try {
-                dispatch(
-                  authUser({
+                localStorage.setItem(
+                  "profile",
+                  JSON.stringify({
                     result: decoded,
                     token: credentialResponse.credential,
                   })
                 );
-                dispatch(createPlaning(decoded.email));
                 if (location.state?.from) {
                   navigate(location.state?.from);
                 } else {
@@ -152,7 +176,7 @@ const Auth = () => {
             }}
             onError={() => {
               console.log("Login Failed");
-            } }*/
+            }}
             useOneTap
           />
           <Grid container justifyContent="flex-end">
