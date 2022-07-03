@@ -14,3 +14,4 @@ API.interceptors.request.use((req) => {
 //user
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
+export const discord = () => API.get("/user/discord")

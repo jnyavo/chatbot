@@ -1,7 +1,6 @@
-const bcrypt  = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-const User = require('../models/user.js');
-
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user.js");
 
 exports.signin = async (req, res) => {
   const { email, password } = req.body;
@@ -33,7 +32,14 @@ exports.signin = async (req, res) => {
   }
 };
 exports.signup = async (req, res) => {
-  const { email, password, confirmPassword, firstName, lastName, type } = req.body;
+  const {
+    email,
+    password,
+    confirmPassword,
+    firstName,
+    lastName,
+    type,
+  } = req.body;
   try {
     const existingUser = await User.model.findOne({ email });
     if (existingUser) {
@@ -49,12 +55,15 @@ exports.signup = async (req, res) => {
       email,
       password: hashedPassword,
       name: `${firstName} ${lastName}`,
-      type
-
+      type,
     });
-    const token = jwt.sign({ email: result.email, id: result.id }, "codesecret", {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { email: result.email, id: result.id },
+      "codesecret",
+      {
+        expiresIn: "1h",
+      }
+    );
     res.status(200).json({ result: result, token });
   } catch (e) {
     console.log(e);
@@ -62,20 +71,23 @@ exports.signup = async (req, res) => {
   }
 };
 
-exports.getUserList = async(req, res) => {
+exports.getUserList = async (req, res) => {
   try {
-    const userList = await User.find();
-    res.status(200).json({result: userList, count: userList.length});
-  } catch (error) {
-    res.status(404).json({message: error.message});
-  }
-}
 
-exports.deleteUser = async(req, res) => {
-  try {
-    const userList = await User.findOneAndDelete({ '_id' : req.body.key._id });
-    res.status(200).json({result: userList, count: userList.length});
+    const userList = await User.model.find();
+    console.log("lelena");
+    res.status(200).json({ result: userList, count: userList.length });
   } catch (error) {
-    res.status(404).json({message: error.message});
+    console.log(error);
+    res.status(404).json({ message: error.message });
   }
-}
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const userList = await User.model.findOneAndDelete({ _id: req.body.key._id });
+    res.status(200).json({ result: userList, count: userList.length });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};

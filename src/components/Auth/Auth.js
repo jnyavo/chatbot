@@ -53,6 +53,9 @@ const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const discord = async() => {
+    const user = await api.discord();
+  }
   const handleShowPassword = () =>
     setShowPassoword((prevShowPassword) => !prevShowPassword);
   const handleSubmit = async (e) => {
@@ -179,6 +182,9 @@ const Auth = () => {
             }}
             useOneTap
           />
+          <Button onClick = {discord}>
+            Discord
+          </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
