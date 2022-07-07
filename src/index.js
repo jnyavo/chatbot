@@ -8,17 +8,18 @@ import App from './App';
 import {ContextProvider} from './contexts/ContextProvider';
 import reportWebVitals from './reportWebVitals';
 
+
 const options = {
   positions: positions.BOTTOM_CENTER,
   timeout:3000,
   offset:'30px',
   transition: transitions.SCALE,
-} 
+}
 
 
 
 ReactDOM.render(
-  
+
     <AlertProvider template={AlertTemplate} {...options} >
       <React.StrictMode>
         <ContextProvider>

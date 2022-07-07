@@ -20,7 +20,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', 
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -29,4 +29,17 @@ export default makeStyles((theme) => ({
   googleButton: {
     marginBottom: theme.spacing(2),
   },
+  facebook: {
+    margin: theme.spacing(3, 0, 2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: "center",
+    height: 35,
+    backgroundColor:"#3f51b5",
+    borderRadius:4,
+  },
+  fb:{
+    color:"white",
+  }
 }));

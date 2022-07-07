@@ -8,7 +8,7 @@ import  Auth  from './components/Auth/Auth';
 const App = () => {
   return (
     <>
-      <GoogleOAuthProvider clientId="426309683556-t9lvbehn86rhhjs1ktqisv8o16r3ssiq.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_API}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Dashboard />} >

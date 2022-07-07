@@ -16,6 +16,7 @@ import {
 import { GoogleLogin } from "@react-oauth/google";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./style";
+import FacebookLogin from "react-facebook-login";
 
 const initialState = {
   firstName: "",
@@ -27,6 +28,31 @@ const initialState = {
 
 const Auth = () => {
   const { user, setUser, setLocalUser } = useStateContext();
+  const componentClicked = (data) => {
+    console.log(data);
+  };
+  const responseFacebook = (response) => {
+    console.log(response);
+    try {
+      localStorage.setItem(
+        "profile",
+        JSON.stringify({
+          result: response,
+          token: response.acessToken,
+        })
+      );
+      if (location.state?.from) {
+        navigate(location.state?.from);
+      } else {
+        navigate("/");
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
   const signin = async (formData) => {
     try {
       const data = await api.signIn(formData);
@@ -53,9 +79,9 @@ const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const discord = async() => {
+  const discord = async () => {
     const user = await api.discord();
-  }
+  };
   const handleShowPassword = () =>
     setShowPassoword((prevShowPassword) => !prevShowPassword);
   const handleSubmit = async (e) => {
@@ -182,9 +208,16 @@ const Auth = () => {
             }}
             useOneTap
           />
-          <Button onClick = {discord}>
-            Discord
-          </Button>
+          <Paper className={classes.facebook} elevation={6}>
+            <FacebookLogin
+              cssClass={classes.fb}
+              appId="395498365891329"
+              autoLoad={true}
+              fields="name,email,picture"
+              onClick={componentClicked}
+              callback={responseFacebook}
+            />
+          </Paper>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
