@@ -28,11 +28,12 @@ const initialState = {
 
 const Auth = () => {
   const { user, setUser, setLocalUser } = useStateContext();
+  console.log(process.env.REACT_APP_FACEBOOK_API);
   const componentClicked = (data) => {
     console.log(data);
   };
   const responseFacebook = (response) => {
-    console.log(response);
+    console.log("login with fb");
     try {
       localStorage.setItem(
         "profile",
@@ -79,9 +80,9 @@ const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const discord = async () => {
-    const user = await api.discord();
-  };
+  const forgetPassword = () => {
+    navigate('/email');
+  }
   const handleShowPassword = () =>
     setShowPassoword((prevShowPassword) => !prevShowPassword);
   const handleSubmit = async (e) => {
@@ -211,7 +212,7 @@ const Auth = () => {
           <Paper className={classes.facebook} elevation={6}>
             <FacebookLogin
               cssClass={classes.fb}
-              appId="395498365891329"
+              appId={process.env.REACT_APP_FACEBOOK_API}
               autoLoad={true}
               fields="name,email,picture"
               onClick={componentClicked}
@@ -224,6 +225,13 @@ const Auth = () => {
                 {isSignup
                   ? "Already have an account ? Sign In"
                   : "Don't have an account ? Sign Up"}
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Button onClick={forgetPassword}>
+                forgotten password
               </Button>
             </Grid>
           </Grid>

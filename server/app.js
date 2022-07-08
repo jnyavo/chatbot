@@ -11,7 +11,8 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const config = require('./config');
 const userRoutes = require('./routes/user.js');
-
+require('dotenv').config()
+console.log(process.env);
 app2.use(
   bodyParser.json({
     limit: "30mb",
@@ -30,10 +31,10 @@ app2.use(cors());
 app2.use("/user", userRoutes.router);
 
 const PORT = process.env.PORT || 5000;
-const CONNECTION_URL  = "mongodb+srv://monfrere:lelenabavy@cluster0.nww7v.mongodb.net/?retryWrites=true&w=majority";
+
 
 mongoose
-  .connect(CONNECTION_URL, {
+  .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

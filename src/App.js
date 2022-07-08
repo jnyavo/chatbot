@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {Ecommerce,Orders,Calendar,Employees,Stacked,Pyramid,Customers,Kanban,Area,Bar,Pie,Financial,ColorPicker,ColorMapping,Editor,Line} from './pages';
 import Dashboard from "./dashbord";
 import  Auth  from './components/Auth/Auth';
+import EmailConfirmation from './components/Auth/EmailConfirmation';
+import ForgetPassword from './components/Auth/ForgetPassword';
 
 const App = () => {
   return (
@@ -37,6 +39,8 @@ const App = () => {
               <Route path="/stacked" element={<Stacked />} />
             </Route>
             <Route path="/auth" element={<Auth/>} />
+            <Route path="/email" element={<EmailConfirmation/>} />
+            <Route path="/reset-password/:id/:token" element={<ForgetPassword/>} />
           </Routes>
         </BrowserRouter>
       </GoogleOAuthProvider>

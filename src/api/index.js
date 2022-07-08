@@ -14,4 +14,5 @@ API.interceptors.request.use((req) => {
 //user
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
-export const discord = () => API.get("/user/discord")
+export const forget = (email) => API.post("/user/forget", email);
+export const resetPassword = (formData) => API.post("/user/reset", formData);
