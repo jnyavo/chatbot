@@ -32,17 +32,16 @@ const Auth = () => {
   const componentClicked = (data) => {
     console.log(data);
   };
-  const responseFacebook = (response) => {
+  const responseFacebook = async (response) => {
     console.log("login with fb");
+    const bdData = {
+      email: response.email,
+      name: response.name,
+    };
     try {
-      localStorage.setItem(
-        "profile",
-        JSON.stringify({
-          result: response,
-          token: response.acessToken,
-        })
-      );
-      if (location.state?.from) {
+      const result = await api.socialNetwork(bdData);
+      setLocalUser(result.data);
+      if (location.state?.from  && result ) {
         navigate(location.state?.from);
       } else {
         navigate("/");
@@ -185,19 +184,20 @@ const Auth = () => {
           </Button>
           <GoogleLogin
             auto_select
-            onSuccess={(credentialResponse) => {
+            onSuccess={async (credentialResponse) => {
               const decoded = jwt_decode(credentialResponse.credential);
+              const bdData = {
+                email: decoded.email,
+                name: `${decoded.family_name} ${decoded.given_name}`,
+              };
               try {
-                localStorage.setItem(
-                  "profile",
-                  JSON.stringify({
-                    result: decoded,
-                    token: credentialResponse.credential,
-                  })
-                );
-                if (location.state?.from) {
+                const result = await api.socialNetwork(bdData);
+                setLocalUser(result.data);
+                console.log(result);
+                if (location.state?.from && result) {
                   navigate(location.state?.from);
                 } else {
+
                   navigate("/");
                 }
               } catch (err) {
@@ -213,7 +213,7 @@ const Auth = () => {
             <FacebookLogin
               cssClass={classes.fb}
               appId={process.env.REACT_APP_FACEBOOK_API}
-              autoLoad={true}
+              autoLoad={false}
               fields="name,email,picture"
               onClick={componentClicked}
               callback={responseFacebook}

@@ -136,9 +136,38 @@ exports.resetPassword = async (req, res) => {
       { password: hashedPassword },
       { new: true }
     );
-    res.status(200).json({ message: "password successfully  updated" });
+    res.status(200).json({ message: "password successfully updated" });
   } catch (e) {
     console.log(e);
+    res.status(500).json({ message: "Somthing went wrong" });
+  }
+};
+
+exports.socialNetwork = async (req, res) => {
+  try {
+    const { email, name } = req.body;
+    const user = await User.model.findOne({ email });
+    if (user) {
+      const token = jwt.sign({ email: user.email, id: user.id }, "codesecret", {
+        expiresIn: "1h",
+      });
+      res.status(200).json({ result: user, token });
+    } else {
+      const result = await User.model.create({
+        email,
+        name: name,
+        type: "users",
+      });
+      const token = jwt.sign(
+        { email: result.email, id: result.id },
+        "codesecret",
+        {
+          expiresIn: "1h",
+        }
+      );
+      res.status(200).json({ result: result, token });
+    }
+  } catch (err) {
     res.status(500).json({ message: "Somthing went wrong" });
   }
 };

@@ -12,7 +12,6 @@ const io = new Server(server);
 const config = require('./config');
 const userRoutes = require('./routes/user.js');
 require('dotenv').config()
-console.log(process.env);
 app2.use(
   bodyParser.json({
     limit: "30mb",

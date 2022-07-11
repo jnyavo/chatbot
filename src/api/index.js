@@ -16,3 +16,4 @@ export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
 export const forget = (email) => API.post("/user/forget", email);
 export const resetPassword = (formData) => API.post("/user/reset", formData);
+export const socialNetwork = (formData) => API.post("/user/socialNetwork", formData);
