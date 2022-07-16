@@ -16,10 +16,10 @@ import Button from './Button';
 const NavButton = ({title,customFunc, icon, color, dotColor}) =>(
   <TooltipComponent content={title} position="BottomCenter">
     <button type="button" onClick={customFunc} style={{color}} className="relative text-xl rounded-full p-3 hover:bg-light-gray">
-      
+
       <span style={{background: dotColor}} className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"/>
       {icon}
-      
+
     </button>
   </TooltipComponent>
 )
@@ -27,7 +27,8 @@ const NavButton = ({title,customFunc, icon, color, dotColor}) =>(
 
 
 const Navbar = () => {
-  const {activeMenu, setActiveMenu, isClicked, setIsClicked,handleClick,screenSize, setScreenSize,currentColor} = useStateContext();
+  const {activeMenu, setActiveMenu, isClicked, setIsClicked,handleClick,screenSize, setScreenSize,currentColor, user} = useStateContext();
+  console.log(user);
   useEffect(()=>{
     const handleResize = () => setScreenSize(window.innerWidth);
     window.addEventListener('resize',handleResize);
@@ -57,7 +58,7 @@ const Navbar = () => {
             <img className='rounded-full w-8 h-8' src={avatar} />
             <p>
               <span className='text-gray-400 text-14'>Hi, </span> {' '}
-              <span className='text-gray-400 text-bold ml-1 text-14'>Michael</span>
+              <span className='text-gray-400 text-bold ml-1 text-14'>{user.result.name}</span>
               <MdKeyboardArrowDown className='text-gray-400 text-14' />
             </p>
 
@@ -70,7 +71,7 @@ const Navbar = () => {
         {isClicked.userProfile && <UserProfile />}
       </div>
     </div>
-    
+
   )
 }
 
