@@ -1,4 +1,5 @@
 
+
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -11,6 +12,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const config = require('./config');
 const userRoutes = require('./routes/user.js');
+const calendrierRoutes = require( './routes/calendrier.js');
 require('dotenv').config()
 app2.use(
   bodyParser.json({
@@ -28,6 +30,7 @@ app2.use(cors());
 
 
 app2.use("/user", userRoutes.router);
+app2.use("/planing", calendrierRoutes.router)
 
 const PORT = process.env.PORT || 5000;
 

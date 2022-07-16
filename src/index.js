@@ -7,6 +7,7 @@ import './index.css';
 import App from './App';
 import {ContextProvider} from './contexts/ContextProvider';
 import reportWebVitals from './reportWebVitals';
+import { Notifications } from 'react-push-notification';
 
 
 const options = {
@@ -21,6 +22,7 @@ const options = {
 ReactDOM.render(
 
     <AlertProvider template={AlertTemplate} {...options} >
+      
       <React.StrictMode>
         <ContextProvider>
           <App />

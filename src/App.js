@@ -6,6 +6,8 @@ import Dashboard from "./dashbord";
 import  Auth  from './components/Auth/Auth';
 import EmailConfirmation from './components/Auth/EmailConfirmation';
 import ForgetPassword from './components/Auth/ForgetPassword';
+import Notif from './components/Notif';
+
 
 const App = () => {
   return (
@@ -41,6 +43,7 @@ const App = () => {
             <Route path="/auth" element={<Auth/>} />
             <Route path="/email" element={<EmailConfirmation/>} />
             <Route path="/reset-password/:id/:token" element={<ForgetPassword/>} />
+            <Route path="/notif" element ={<Notif/>} />
           </Routes>
         </BrowserRouter>
       </GoogleOAuthProvider>

@@ -35,9 +35,10 @@ const Customers = () => {
       width: '150',
     },
   ];
-
+  const storeUser = JSON.parse(localStorage.getItem("profile"));
   const data = new DataManager({
     adaptor: new UrlAdaptor(),
+    headers : [{Authorization : `Bearer ${storeUser?.token}`}],
     url: baseUrl + '/user/getUserList',
     removeUrl: baseUrl + "/user/deleteUser",
   });

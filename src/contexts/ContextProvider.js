@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import * as api from "../api/index";
 
 const StateContext = createContext();
 const initialState = {
@@ -10,6 +11,8 @@ const initialState = {
 };
 
 export const ContextProvider = ({ children }) => {
+  const [planing, setPlaning] = useState([]);
+  const [notification, setNotification] = useState([]);
   const [activeMenu, setActiveMenu] = useState(true);
   const [isClicked, setIsClicked] = useState(initialState);
   const [chatbot, setChatbot] = useState(false);
@@ -32,10 +35,19 @@ export const ContextProvider = ({ children }) => {
   };
   const [themeSettings, setThemeSettings] = useState(false);
   const [user, setUser] = useState({});
-  const setLocalUser = (e) =>{
-    setUser(e);
-    localStorage.setItem("profile", JSON.stringify(e));
-  }
+  const setLocalUser = async (e) => {
+    try {
+
+      const plan = await api.createPlaning({
+        email: e.result.email,
+        planing: [],
+      });
+      setPlaning(plan);
+      await localStorage.setItem("profile", JSON.stringify(e));
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <StateContext.Provider
@@ -59,8 +71,9 @@ export const ContextProvider = ({ children }) => {
         setChatbot,
         user,
         setUser,
-        setLocalUser
-
+        setLocalUser,
+        planing,
+        setPlaning,
       }}
     >
       {children}

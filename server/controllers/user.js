@@ -85,13 +85,19 @@ exports.getUserList = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const userList = await User.model.findOneAndDelete({
-      _id: req.body.key._id,
-    });
-    res.status(200).json({ result: userList, count: userList.length });
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
+   const list = req.body.deleted;
+   if (req.body.action === "batch") {
+     userList = await User.deleteMany({
+       _id: { $in: list },
+     });
+     res.status(200).json({ result: userList, count: userList.length });
+   } else {
+     userList = await User.findOneAndDelete({ _id: req.body.key._id });
+     res.status(200).json({ result: userList, count: userList.length });
+   }
+ } catch (error) {
+   res.status(404).json({ message: error.message });
+ }
 };
 
 exports.forgetPassword = async (req, res) => {

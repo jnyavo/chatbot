@@ -28,7 +28,6 @@ const initialState = {
 
 const Auth = () => {
   const { user, setUser, setLocalUser } = useStateContext();
-  console.log(process.env.REACT_APP_FACEBOOK_API);
   const componentClicked = (data) => {
     console.log(data);
   };
@@ -41,6 +40,7 @@ const Auth = () => {
     try {
       const result = await api.socialNetwork(bdData);
       setLocalUser(result.data);
+      setUser(result.data);
       if (location.state?.from  && result ) {
         navigate(location.state?.from);
       } else {
@@ -92,6 +92,7 @@ const Auth = () => {
 
         if (userConnected) {
           setLocalUser(userConnected);
+          setUser(userConnected);
           if (location.state?.from) {
             navigate(location.state.from);
           } else {
@@ -107,6 +108,7 @@ const Auth = () => {
 
         if (userConnected) {
           setLocalUser(userConnected);
+          setUser(userConnected);
           if (location.state?.from) {
             navigate(location.state.from);
           } else {
@@ -193,7 +195,7 @@ const Auth = () => {
               try {
                 const result = await api.socialNetwork(bdData);
                 setLocalUser(result.data);
-                console.log(result);
+                setUser(result.data);
                 if (location.state?.from && result) {
                   navigate(location.state?.from);
                 } else {
