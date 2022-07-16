@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import * as api from "../api/index";
 
+
 const StateContext = createContext();
 const initialState = {
   chat: false,
@@ -11,6 +12,7 @@ const initialState = {
 };
 
 export const ContextProvider = ({ children }) => {
+
   const [planing, setPlaning] = useState([]);
   const [notification, setNotification] = useState([]);
   const [activeMenu, setActiveMenu] = useState(true);
@@ -34,19 +36,23 @@ export const ContextProvider = ({ children }) => {
     setThemeSettings(false);
   };
   const [themeSettings, setThemeSettings] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const setLocalUser = async (e) => {
     try {
-
       const plan = await api.createPlaning({
         email: e.result.email,
         planing: [],
       });
       setPlaning(plan);
       await localStorage.setItem("profile", JSON.stringify(e));
+      setUser(e);
     } catch (e) {
       console.log(e);
     }
+  };
+  const logout = () => {
+    localStorage.clear();
+    
   };
 
   return (
@@ -74,6 +80,7 @@ export const ContextProvider = ({ children }) => {
         setLocalUser,
         planing,
         setPlaning,
+        logout
       }}
     >
       {children}
