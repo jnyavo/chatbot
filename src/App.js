@@ -4,11 +4,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {Ecommerce,Orders,Calendar,Employees,Stacked,Pyramid,Customers,Kanban,Area,Bar,Pie,Financial,ColorPicker,ColorMapping,Editor,Line} from './pages';
 import Dashboard from "./dashbord";
 import  Auth  from './components/Auth/Auth';
+import EmailConfirmation from './components/Auth/EmailConfirmation';
+import ForgetPassword from './components/Auth/ForgetPassword';
+import Notif from './components/Notif';
+
 
 const App = () => {
   return (
     <>
-      <GoogleOAuthProvider clientId="426309683556-t9lvbehn86rhhjs1ktqisv8o16r3ssiq.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_API}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Dashboard />} >
@@ -37,6 +41,9 @@ const App = () => {
               <Route path="/stacked" element={<Stacked />} />
             </Route>
             <Route path="/auth" element={<Auth/>} />
+            <Route path="/email" element={<EmailConfirmation/>} />
+            <Route path="/reset-password/:id/:token" element={<ForgetPassword/>} />
+            <Route path="/notif" element ={<Notif/>} />
           </Routes>
         </BrowserRouter>
       </GoogleOAuthProvider>
