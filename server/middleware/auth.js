@@ -7,13 +7,13 @@ exports.auth = async (req, res, next) => {
 
     let decodedData;
     if (token && isCustomAuth) {
-      decodedData = jwt.verify(token, "codesecret");
-      req.userId = decodedData?.email;
+      decodedData = await jwt.verify(token, "codesecret");
+      req.userId = decodedData?.id
     } else {
-      decodedData = jwt.decode(token);
+      decodedData = await jwt.decode(token);
       req.userId = decodedData?.sub;
     }
-    next();
+    next(req,res);
   } catch (error) {
     return res
       .status(403)
