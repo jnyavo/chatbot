@@ -91,11 +91,12 @@ const Auth = () => {
         const userConnected = await signup(formData);
 
         if (userConnected) {
-          setLocalUser(userConnected);
-          setUser(userConnected);
+          await setLocalUser(userConnected);
+          await setUser(userConnected);
           if (location.state?.from) {
             navigate(location.state.from);
           } else {
+            console.log("eeeeeeeeeeeeeee");
             navigate("/");
           }
         }
@@ -107,7 +108,7 @@ const Auth = () => {
         const userConnected = await signin(formData);
 
         if (userConnected) {
-          setLocalUser(userConnected);
+          await setLocalUser(userConnected);
           setUser(userConnected);
           if (location.state?.from) {
             navigate(location.state.from);
@@ -194,8 +195,8 @@ const Auth = () => {
               };
               try {
                 const result = await api.socialNetwork(bdData);
-                setLocalUser(result.data);
-                setUser(result.data);
+                await setLocalUser(result.data);
+                await setUser(result.data);
                 if (location.state?.from && result) {
                   navigate(location.state?.from);
                 } else {

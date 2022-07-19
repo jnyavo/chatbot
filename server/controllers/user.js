@@ -75,8 +75,76 @@ exports.signup = async (req, res) => {
 exports.getUserList = async (req, res) => {
   try {
     const userList = await User.model.find();
-    console.log("lelena");
     res.status(200).json({ result: userList, count: userList.length });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+exports.updated = async (req, res) => {
+  try {
+    const { id, name, email, password, newPassword, confirmPassword } = req.body;
+    const user = await User.model.findById(id);
+    if (user) {
+      if (user.password) {
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (isPasswordCorrect) {
+          if (user.email !== email) {
+            const existingUser = await User.model.findOne({ email });
+            if (existingUser) {
+              return res.status(404).json({ message: "Email already use" });
+            }
+          }
+          if (newPassword) {
+            if (password !== confirmPassword) {
+              res.statusMessage = "Password don't match.";
+              return res.status(404).json({ message: "Password don't match." });
+            }
+            const hashedPassword = await bcrypt.hash(newPassword, 12);
+            const updatedUser = await User.model.findOneAndUpdate(
+              { _id: id },
+              { name: name, email: email, password: hashedPassword },
+              { new: true }
+            );
+          } else {
+            const updatedUser = await User.model.findOneAndUpdate(
+              { _id: id },
+              { name: name, email: email },
+              { new: true }
+            );
+          }
+          return res
+            .status(200)
+            .json({ message: "password successfully updated" });
+        } else {
+          return res.status(400).json({ message: "Invalid Password" });
+        }
+      } else {
+        if (user.email !== email) {
+          const existingUser = await User.model.findOne({ email });
+          if (existingUser) {
+            return res.status(404).json({ message: "Email already use" });
+          }
+        }
+        if (newPassword) {
+          const hashedPassword = await bcrypt.hash(newPassword, 12);
+          const updatedUser = await User.model.findOneAndUpdate(
+            { _id: id },
+            { name: name, email: email, password: hashedPassword },
+            { new: true }
+          );
+        } else {
+          const updatedUser = await User.model.findOneAndUpdate(
+            { _id: id },
+            { name: name, email: email },
+            { new: true }
+          );
+        }
+        return res
+          .status(200)
+          .json({ message: "password successfully updated" });
+      }
+    }
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });
@@ -85,19 +153,21 @@ exports.getUserList = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-   const list = req.body.deleted;
-   if (req.body.action === "batch") {
-     userList = await User.deleteMany({
-       _id: { $in: list },
-     });
-     res.status(200).json({ result: userList, count: userList.length });
-   } else {
-     userList = await User.findOneAndDelete({ _id: req.body.key._id });
-     res.status(200).json({ result: userList, count: userList.length });
-   }
- } catch (error) {
-   res.status(404).json({ message: error.message });
- }
+    const list = req.body.deleted;
+    console.log(list);
+    if (req.body.action === "batch") {
+      userList = await User.model.deleteMany({
+        _id: { $in: list },
+      });
+      res.status(200).json({ result: userList, count: userList.length });
+    } else {
+      userList = await User.model.findOneAndDelete({ _id: req.body.key._id });
+      res.status(200).json({ result: userList, count: userList.length });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
 };
 
 exports.forgetPassword = async (req, res) => {
