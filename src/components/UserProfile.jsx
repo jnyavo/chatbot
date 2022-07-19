@@ -13,7 +13,7 @@ const UserProfile = () => {
   const disconnect = () => {
     logout();
     navigate("/auth");
-  }
+  };
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -81,6 +81,18 @@ const UserProfile = () => {
           width="full"
           onClick={() => {
             disconnect();
+          }}
+        />
+      </div>
+      <div className="mt-5">
+        <Button
+          color="white"
+          bgColor={currentColor}
+          text="Edit"
+          borderRadius="10px"
+          width="full"
+          onClick={() => {
+            navigate("/edit");
           }}
         />
       </div>

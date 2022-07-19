@@ -18,6 +18,7 @@ export const forget = (email) => API.post("/user/forget", email);
 export const resetPassword = (formData) => API.post("/user/reset", formData);
 export const socialNetwork = (formData) =>
   API.post("/user/socialNetwork", formData);
+  export const edit = (formData) => API.patch("/user/edit", formData);
 
 //calendrier
 export const createPlaning = (id) => API.post("/planing/create", id);

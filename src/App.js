@@ -1,6 +1,7 @@
 import React from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import UpdateProfile from  './components/updateProfile';
 import {
   Ecommerce,
   Orders,
@@ -57,6 +58,7 @@ const App = () => {
                 <Route path="/color-mapping" element={<ColorMapping />} />
                 <Route path="/pyramid" element={<Pyramid />} />
                 <Route path="/stacked" element={<Stacked />} />
+                <Route path="/edit" element={<UpdateProfile />} />
               </Route>
             </Route>
             <Route path="/auth" element={<Auth />} />

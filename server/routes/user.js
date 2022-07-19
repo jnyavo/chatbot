@@ -9,6 +9,7 @@ router.post('/getUserList', middleware.auth, userController.getUserList);
 router.post('/deleteUser', middleware.auth, userController.deleteUser);
 router.post('/forget', userController.forgetPassword);
 router.post('/reset', userController.resetPassword);
+router.patch('/edit', userController.updated);
 router.post('/socialNetwork', userController.socialNetwork);
 
 
