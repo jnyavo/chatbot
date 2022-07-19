@@ -13,7 +13,7 @@ exports.auth = async (req, res, next) => {
       decodedData = await jwt.decode(token);
       req.userId = decodedData?.sub;
     }
-    next(req,res);
+    next();
   } catch (error) {
     return res
       .status(403)
