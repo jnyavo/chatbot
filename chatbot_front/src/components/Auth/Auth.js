@@ -28,6 +28,7 @@ const initialState = {
 
 const Auth = () => {
   const { user, setUser, setLocalUser } = useStateContext();
+  const [message, setMessage] = useState("");
   const componentClicked = (data) => {
     console.log(data);
   };
@@ -41,16 +42,14 @@ const Auth = () => {
       const result = await api.socialNetwork(bdData);
       setLocalUser(result.data);
       setUser(result.data);
-      if (location.state?.from  && result ) {
+      if (location.state?.from && result) {
         navigate(location.state?.from);
       } else {
         navigate("/");
       }
-
     } catch (error) {
       console.log(error);
     }
-
   };
 
   const signin = async (formData) => {
@@ -59,7 +58,7 @@ const Auth = () => {
 
       return data.data;
     } catch (error) {
-      console.log(error);
+      setMessage(error.response.data.message);
     }
   };
 
@@ -69,7 +68,7 @@ const Auth = () => {
       const data = await api.signUp(formData);
       return data.data;
     } catch (error) {
-      console.log(error);
+      setMessage(error.response.data.message);
     }
   };
 
@@ -80,8 +79,8 @@ const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const forgetPassword = () => {
-    navigate('/email');
-  }
+    navigate("/email");
+  };
   const handleShowPassword = () =>
     setShowPassoword((prevShowPassword) => !prevShowPassword);
   const handleSubmit = async (e) => {
@@ -96,7 +95,6 @@ const Auth = () => {
           if (location.state?.from) {
             navigate(location.state.from);
           } else {
-            console.log("eeeeeeeeeeeeeee");
             navigate("/");
           }
         }
@@ -122,7 +120,10 @@ const Auth = () => {
     }
   };
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
@@ -133,10 +134,14 @@ const Auth = () => {
       <Paper className={classes.paper} elevation={6}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
-        </Avatar>
-        <Typography variant="h5">{isSignup ? "Sign up" : "Sign In"}</Typography>
+        </Avatar>{" "}
+        <Typography variant="h5">
+          {" "}
+          {isSignup ? "Sign up" : "Sign In"}{" "}
+        </Typography>{" "}
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
+            {" "}
             {isSignup && (
               <>
                 <Input
@@ -153,7 +158,7 @@ const Auth = () => {
                   half
                 />
               </>
-            )}
+            )}{" "}
             <Input
               name="email"
               label="Email Address"
@@ -166,7 +171,7 @@ const Auth = () => {
               handleChange={handleChange}
               type={showPassoword ? "text" : "password"}
               handleShowPassword={handleShowPassword}
-            />
+            />{" "}
             {isSignup && (
               <Input
                 name="confirmPassword"
@@ -174,8 +179,12 @@ const Auth = () => {
                 handleChange={handleChange}
                 type="password"
               />
-            )}
-          </Grid>
+            )}{" "}
+          </Grid>{" "}
+          <Typography variant="body2" color="error" className={classes.message}>
+            {" "}
+            {message}{" "}
+          </Typography>{" "}
           <Button
             type="submit"
             fullWidth
@@ -183,8 +192,8 @@ const Auth = () => {
             color="primary"
             className={classes.submit}
           >
-            {isSignup ? "Sign Up" : "Sign In"}
-          </Button>
+            {isSignup ? "Sign Up" : "Sign In"}{" "}
+          </Button>{" "}
           <GoogleLogin
             auto_select
             onSuccess={async (credentialResponse) => {
@@ -200,7 +209,6 @@ const Auth = () => {
                 if (location.state?.from && result) {
                   navigate(location.state?.from);
                 } else {
-
                   navigate("/");
                 }
               } catch (err) {
@@ -220,26 +228,25 @@ const Auth = () => {
               fields="name,email,picture"
               onClick={componentClicked}
               callback={responseFacebook}
-            />
-          </Paper>
+            />{" "}
+          </Paper>{" "}
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
+                {" "}
                 {isSignup
                   ? "Already have an account ? Sign In"
-                  : "Don't have an account ? Sign Up"}
-              </Button>
-            </Grid>
-          </Grid>
+                  : "Don't have an account ? Sign Up"}{" "}
+              </Button>{" "}
+            </Grid>{" "}
+          </Grid>{" "}
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Button onClick={forgetPassword}>
-                forgotten password
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
+              <Button onClick={forgetPassword}> forgotten password </Button>{" "}
+            </Grid>{" "}
+          </Grid>{" "}
+        </form>{" "}
+      </Paper>{" "}
     </Container>
   );
 };

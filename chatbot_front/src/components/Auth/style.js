@@ -39,6 +39,13 @@ export default makeStyles((theme) => ({
     backgroundColor:"#3f51b5",
     borderRadius:4,
   },
+  message: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: "center",
+    height: 35,
+  },
   fb:{
     color:"white",
   }
