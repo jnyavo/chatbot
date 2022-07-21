@@ -126,6 +126,7 @@ const Auth = () => {
     });
   };
   const switchMode = () => {
+    setMessage("");
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassoword(false);
   };
